@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Forecast App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+
+
+
+<body class="min-h-screen transition-all duration-500" id="app-body">
+
+    <div id="error-popup"
+        class="hidden fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-red-500 text-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-3">
+        <span>⚠️</span>
+        <span id="error-msg">Something went wrong.</span>
+        <button onclick="closeError()" class="ml-4 font-bold text-white hover:text-red-200">✕</button>
+    </div>
+
+
+
+    <div id="temp-alert"
+        class="hidden fixed top-5 right-5 z-50 bg-orange-500 text-white px-5 py-3 rounded-xl shadow-lg">
+        🔥 <span id="temp-alert-msg">Extreme temperature!</span>
+        <button onclick="document.getElementById('temp-alert').classList.add('hidden')"
+            class="ml-3 font-bold">✕</button>
+    </div>
+
+
+
+    <header class="py-6 px-4 text-center">
+        <h1 class="text-4xl font-extrabold tracking-tight text-white drop-shadow">
+            🌤 Weather Dashboard
+        </h1>
+        <p class="text-white/70 mt-1 text-sm">Real-time weather, anywhere in the world</p>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 pb-12">
+
+        <section class="bg-white/10 backdrop-blur-md rounded-2xl p-6 mb-6 shadow-xl border border-white/20">
+            <h2 class="text-white font-bold text-lg mb-4">🔍 Search City</h2>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+                <div class="relative flex-1">
+                    <input type="text" id="city-input" placeholder="e.g., Chennai, Bangalore, Pune"
+                        class="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
+                        autocomplete="off" />
+                    <ul id="recent-dropdown"
+                        class="hidden absolute top-full left-0 w-full bg-white text-gray-800 rounded-xl mt-1 shadow-lg z-10 overflow-hidden">
+                    </ul>
+                </div>
+
+                <button id="search-btn" onclick="handleSearch()"
+                    class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition">
+                    Search
+                </button>
+            </div>
+
+            <div class="flex items-center gap-2 my-3">
+                <div class="flex-1 h-px bg-white/20"></div>
+                <span class="text-white/50 text-sm">or</span>
+                <div class="flex-1 h-px bg-white/20"></div>
+            </div>
+
+            <button onclick="useCurrentLocation()"
+                class="w-full py-3 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-xl transition flex items-center justify-center gap-2">
+                📍 Use My Current Location
+            </button>
+        </section>
+
+
+        <div id="loader" class="hidden text-center py-10">
+            <div class="inline-block w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+            <p class="text-white/70 mt-3">Fetching weather data...</p>
+        </div>
+
+        <section id="current-weather"
+            class="hidden bg-white/10 backdrop-blur-md rounded-2xl p-6 mb-6 shadow-xl border border-white/20">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-white" id="city-name">--</h2>
+                    <p class="text-white/60 text-sm" id="weather-date">--</p>
+
+                    <div class="mt-3 flex items-center gap-3">
+                        <span class="text-5xl font-bold text-white" id="temperature">--</span>
+                        <div class="flex flex-col gap-1">
+                            <button id="toggle-unit" onclick="toggleUnit()"
+                                class="text-xs bg-white/20 hover:bg-white/30 text-white px-3 py-1 rounded-full font-semibold transition">
+                                Switch to °F
+                            </button>
+                            <span class="text-white/50 text-xs text-center">today only</span>
+                        </div>
+                    </div>
+
+                    <p class="text-white/80 mt-2 capitalize" id="weather-desc">--</p>
+
+                    <div class="flex flex-wrap gap-4 mt-3 text-white/70 text-sm">
+                        <span>💨 Wind: <strong id="wind-speed" class="text-white">--</strong></span>
+                        <span>💧 Humidity: <strong id="humidity" class="text-white">--</strong></span>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <div id="weather-icon" class="text-7xl">🌤</div>
+                    <p class="text-white/60 text-sm mt-1" id="weather-condition">--</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="forecast-section" class="hidden">
+            <h2 class="text-white font-bold text-lg mb-4">📅 5-Day Forecast</h2>
+            <div id="forecast-cards" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3"></div>
+        </section>
+
+    </main>
+
+</body>
+
+</html>
